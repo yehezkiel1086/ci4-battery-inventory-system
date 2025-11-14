@@ -19,7 +19,7 @@ migraterollback:
 watchcss:
 	npx @tailwindcss/cli -i ./public/css/input.css -o ./public/css/output.css --watch
 
-serve:
+dev:
 	php spark serve
 
-.PHONY: composeup composedown migrate serve
+.PHONY: composeup composedown migrate dev

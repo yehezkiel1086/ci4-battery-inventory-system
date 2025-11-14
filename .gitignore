@@ -128,3 +128,4 @@ _modules/*
 
 # Docker volumes
 postgres_data/
+servers.json

@@ -10,6 +10,18 @@ services:
     volumes:
       - ./postgres_data:/var/lib/postgresql/data
     container_name: postgres_battery
+  pgadmin4:
+    image: elestio/pgadmin
+    restart: always
+    environment:
+      PGADMIN_DEFAULT_EMAIL: yehezkiel@gmail.com
+      PGADMIN_DEFAULT_PASSWORD: "Admin@CBI"
+      PGADMIN_LISTEN_PORT: 8080
+    ports:
+    - "3501:8080"
+    volumes:
+    - ./servers.json:/pgadmin4/servers.json
+    container_name: pgadmin
 
 volumes:
   postgres_data:
