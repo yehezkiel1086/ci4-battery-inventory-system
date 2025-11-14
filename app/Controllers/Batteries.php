@@ -4,16 +4,19 @@ namespace App\Controllers;
 
 use App\Models\BatteryModel;
 use App\Models\CategoryModel;
+use App\Models\InventoryModel;
 
 class Batteries extends BaseController
 {
     protected $batteryModel;
     protected $categoryModel;
+    protected $inventoryModel;
 
     public function __construct()
     {
         $this->batteryModel = new BatteryModel();
         $this->categoryModel = new CategoryModel();
+        $this->inventoryModel = new InventoryModel();
     }
 
     public function index()
@@ -56,9 +59,15 @@ class Batteries extends BaseController
             'category_id' => $this->request->getPost('category_id'),
         ];
 
-        $this->batteryModel->insert($data);
+        $batteryId = $this->batteryModel->insert($data);
 
-        return redirect()->to('/batteries')->with('message', 'Battery created successfully.');
+        if ($batteryId) {
+            $this->inventoryModel->insert([
+                'battery_id'      => $batteryId,
+                'available_stock' => 0
+            ]);
+        }
+        return redirect()->to('/batteries')->with('message', 'Battery and inventory record created successfully.');
     }
 
     public function edit($id)
