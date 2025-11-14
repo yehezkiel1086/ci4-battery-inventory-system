@@ -16,4 +16,5 @@ $routes->post('/batteries/delete/(:num)', 'Batteries::delete/$1');
 $routes->get('/inventory', 'Inventory::index');
 $routes->post('/inventory/update/(:num)', 'Inventory::update/$1');
 $routes->get('/shipments', 'Shipments::index');
+$routes->post('/shipments/send/(:num)', 'Shipments::send/$1');
 $routes->get('/products', 'Products::index');
