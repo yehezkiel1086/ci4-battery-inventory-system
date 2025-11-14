@@ -55,4 +55,10 @@ abstract class BaseController extends Controller
 
         // E.g.: $this->session = service('session');
     }
+
+    public function layout($pageName="dashboard") {
+        echo view('components/header.php');
+        echo view($pageName);
+        echo view('components/footer.php');
+    }
 }

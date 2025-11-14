@@ -16,6 +16,9 @@ migratestatus:
 migraterollback:
 	php spark migrate:rollback
 
+watchcss:
+	npx @tailwindcss/cli -i ./public/css/input.css -o ./public/css/output.css --watch
+
 serve:
 	php spark serve
 
