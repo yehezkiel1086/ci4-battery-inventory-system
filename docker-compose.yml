@@ -1,0 +1,15 @@
+services:
+  db:
+    image: postgres:17-alpine # temporary
+    environment:
+      POSTGRES_USER: yehezkiel1086
+      POSTGRES_PASSWORD: Admin@CBI
+      POSTGRES_DB: battery_inventory
+    ports:
+      - "5431:5432"
+    volumes:
+      - ./postgres_data:/var/lib/postgresql/data
+    container_name: postgres_battery
+
+volumes:
+  postgres_data:
