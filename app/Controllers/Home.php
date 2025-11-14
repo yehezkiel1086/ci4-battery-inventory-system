@@ -6,6 +6,6 @@ class Home extends BaseController
 {
     public function index()
     {
-        $this->layout("dashboard");
+        return View("dashboard.php");
     }
 }
