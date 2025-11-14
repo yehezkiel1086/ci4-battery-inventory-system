@@ -58,7 +58,10 @@ abstract class BaseController extends Controller
 
     public function layout($pageName="dashboard") {
         echo view('components/header.php');
-        echo view($pageName);
+        echo view("components/sidebar.php");
+        echo "<div class='p-4 sm:ml-64'>";
+            echo view($pageName);
+        echo "</div>";
         echo view('components/footer.php');
     }
 }
