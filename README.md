@@ -1,68 +1,100 @@
-# CodeIgniter 4 Application Starter
+# CI4 Battery Inventory System
 
-## What is CodeIgniter?
+Sistem Manajemen Produksi & Inventaris Baterai berbasis CodeIgniter 4.
 
-CodeIgniter is a PHP full-stack web framework that is light, fast, flexible and secure.
-More information can be found at the [official site](https://codeigniter.com).
+## Tujuan Proyek
 
-This repository holds a composer-installable app starter.
-It has been built from the
-[development repository](https://github.com/codeigniter4/CodeIgniter4).
+Membangun aplikasi monolith berbasis CodeIgniter 4 untuk mengelola data produksi dan stok baterai. Sistem ini dirancang untuk digunakan oleh bagian produksi dan gudang di PT Century Batteries Indonesia guna memantau hasil produksi dan distribusi baterai secara efisien.
 
-More information about the plans for version 4 can be found in [CodeIgniter 4](https://forum.codeigniter.com/forumdisplay.php?fid=28) on the forums.
+## Deskripsi Singkat
 
-You can read the [user guide](https://codeigniter.com/user_guide/)
-corresponding to the latest version of the framework.
+Aplikasi ini membantu perusahaan untuk:
 
-## Installation & updates
+- Mencatat hasil produksi baterai per hari dari pabrik.
+- Mengelola stok baterai di gudang.
+- Melacak pengiriman ke dealer atau distributor.
+- Menampilkan laporan interaktif.
 
-`composer create-project codeigniter4/appstarter` then `composer update` whenever
-there is a new release of the framework.
+Aplikasi ini bersifat *monolithic*, dibangun dengan **CodeIgniter 4**, dan menggunakan **Microsoft SQL Server** sebagai database utama.
 
-When updating, check the release notes to see if there are any changes you might need to apply
-to your `app` folder. The affected files can be copied or merged from
-`vendor/codeigniter4/framework/app`.
+![Battery inventory system flowchart](/assets/battery_inventory_system_flowchart.png)
 
-## Setup
+![Battery inventory system ERD](/assets/battery_inventory_system_erd.png)
 
-Copy `env` to `.env` and tailor for your app, specifically the baseURL
-and any database settings.
+## Fitur Utama
 
-## Important Change with index.php
+1.  **Dashboard**: Menampilkan ringkasan total baterai, stok tersedia, dan total pengiriman.
+2.  **Manajemen Produk (CRUD)**: Mengelola data master baterai (tipe, kapasitas, voltase, dll).
+3.  **Manajemen Produksi**: Mencatat data produksi harian (jumlah, shift, operator).
+4.  **Manajemen Stok & Pengiriman**: Mengelola stok gudang dan mencatat pengiriman baterai. Stok akan otomatis berkurang setelah pengiriman dicatat.
+5.  **Laporan & Pencarian**: Menyediakan laporan dinamis dengan fitur pencarian dan filter.
 
-`index.php` is no longer in the root of the project! It has been moved inside the *public* folder,
-for better security and separation of components.
+## Cara Instalasi
 
-This means that you should configure your web server to "point" to your project's *public* folder, and
-not to the project root. A better practice would be to configure a virtual host to point there. A poor practice would be to point your web server to the project root and expect to enter *public/...*, as the rest of your logic and the
-framework are exposed.
+1.  **Clone Repository**
+    ```bash
+    git clone https://github.com/username/ci4-battery-inventory-system.git
+    cd ci4-battery-inventory-system
+    ```
 
-**Please** read the user guide for a better explanation of how CI4 works!
+2.  **Install Dependencies**
+    Pastikan Anda memiliki [Composer](https://getcomposer.org/). Jalankan perintah berikut untuk menginstal dependensi PHP.
+    ```bash
+    composer install
+    ```
 
-## Repository Management
+3.  **Konfigurasi Environment**
+    Salin file `env` menjadi `.env` dan sesuaikan konfigurasinya, terutama untuk koneksi database.
+    ```bash
+    cp env .env
+    ```
+    Buka file `.env` dan atur koneksi ke SQL Server Anda.
+    ```dotenv
+    #--------------------------------------------------------------------
+    # DATABASE
+    #--------------------------------------------------------------------
 
-We use GitHub issues, in our main repository, to track **BUGS** and to track approved **DEVELOPMENT** work packages.
-We use our [forum](http://forum.codeigniter.com) to provide SUPPORT and to discuss
-FEATURE REQUESTS.
+    database.default.hostname = localhost
+    database.default.database = ci4_battery_inventory
+    database.default.username = sa
+    database.default.password = your_password
+    database.default.DBDriver = SQLSRV
+    database.default.port = 1433
+    ```
 
-This repository is a "distribution" one, built by our release preparation script.
-Problems with it can be raised on our forum, or as issues in the main repository.
+4.  **Jalankan Migrasi Database**
+    Jalankan perintah berikut untuk membuat tabel-tabel yang dibutuhkan di database Anda.
+    ```bash
+    php spark migrate
+    ```
 
-## Server Requirements
+## Cara Menjalankan Aplikasi
 
-PHP version 8.1 or higher is required, with the following extensions installed:
+Gunakan perintah `spark` dari CodeIgniter untuk menjalankan server pengembangan lokal.
 
-- [intl](http://php.net/manual/en/intl.requirements.php)
-- [mbstring](http://php.net/manual/en/mbstring.installation.php)
+```bash
+php spark serve
+```
 
-> [!WARNING]
-> - The end of life date for PHP 7.4 was November 28, 2022.
-> - The end of life date for PHP 8.0 was November 26, 2023.
-> - If you are still using PHP 7.4 or 8.0, you should upgrade immediately.
-> - The end of life date for PHP 8.1 will be December 31, 2025.
+Aplikasi akan berjalan dan dapat diakses melalui **http://localhost:8080**.
 
-Additionally, make sure that the following extensions are enabled in your PHP:
+## Endpoints API
 
-- json (enabled by default - don't turn it off)
-- [mysqlnd](http://php.net/manual/en/mysqlnd.install.php) if you plan to use MySQL
-- [libcurl](http://php.net/manual/en/curl.requirements.php) if you plan to use the HTTP\CURLRequest library
+Berikut adalah daftar endpoint yang tersedia dalam aplikasi ini, berdasarkan file `Routes.php`.
+
+| Method | URI | Controller Action | Deskripsi |
+|:-------|:-----------------------------|:-------------------------|:------------------------------------------------|
+| `GET` | `/` | `Home::index` | Menampilkan halaman dashboard utama. |
+| `GET` | `/batteries` | `Batteries::index` | Menampilkan daftar semua baterai. |
+| `GET` | `/batteries/show/(:num)` | `Batteries::show/$1` | Menampilkan detail satu baterai. |
+| `GET` | `/batteries/new` | `Batteries::new` | Menampilkan form untuk membuat baterai baru. |
+| `POST` | `/batteries/create` | `Batteries::create` | Menyimpan data baterai baru ke database. |
+| `GET` | `/batteries/edit/(:num)` | `Batteries::edit/$1` | Menampilkan form untuk mengedit baterai. |
+| `POST` | `/batteries/update/(:num)` | `Batteries::update/$1` | Memperbarui data baterai yang sudah ada. |
+| `POST` | `/batteries/delete/(:num)` | `Batteries::delete/$1` | Menghapus data baterai. |
+| `GET` | `/inventory` | `Inventory::index` | Menampilkan halaman manajemen inventaris/stok. |
+| `POST` | `/inventory/update/(:num)` | `Inventory::update/$1` | Memperbarui jumlah stok baterai. |
+| `GET` | `/shipments` | `Shipments::index` | Menampilkan halaman untuk membuat pengiriman baru. |
+| `POST` | `/shipments/send/(:num)` | `Shipments::send/$1` | Memproses pengiriman dan mengurangi stok. |
+| `GET` | `/products` | `Products::index` | Menampilkan halaman produk. |
+
