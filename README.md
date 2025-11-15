@@ -68,6 +68,15 @@ Aplikasi ini bersifat *monolithic*, dibangun dengan **CodeIgniter 4**, dan mengg
     php spark migrate
     ```
 
+5. **Seed Database**
+    Jalankan perintah berikut untuk generate data database anda.
+    ```bash
+    php spark db:seed CategorySeeder 
+	php spark db:seed BatterySeeder 
+	php spark db:seed ShipmentSeeder 
+	php spark db:seed InventorySeeder
+    ```
+
 ## Cara Menjalankan Aplikasi
 
 Gunakan perintah `spark` dari CodeIgniter untuk menjalankan server pengembangan lokal.

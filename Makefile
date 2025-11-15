@@ -16,6 +16,15 @@ migratestatus:
 migraterollback:
 	php spark migrate:rollback
 
+migraterefresh:
+	php spark migrate:refresh
+
+seed:
+	php spark db:seed CategorySeeder 
+	php spark db:seed BatterySeeder 
+	php spark db:seed ShipmentSeeder 
+	php spark db:seed InventorySeeder
+
 watchcss:
 	npx @tailwindcss/cli -i ./public/css/input.css -o ./public/css/output.css --watch
 
