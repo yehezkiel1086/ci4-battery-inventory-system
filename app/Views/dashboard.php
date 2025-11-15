@@ -9,5 +9,9 @@
         <?php echo view("components/card.php", ['title' => 'Total Shipments', 'value' => $totalShipments ?? 0, 'description' => 'Total batteries sent']) ?>
         <?php echo view("components/card.php", ['title' => 'Total Countries', 'value' => $totalCountries ?? 0, 'description' => 'Total countries batteries sent to']) ?>
     </div>
+
+    <div class="mt-6">
+        <?php echo view("components/chart.php") ?>
+    </div>
 </section>
 <?= $this->endSection() ?>
